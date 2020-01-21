@@ -1,3 +1,41 @@
+# RPG Player
+class Player():
+    # RPG Player class.
+    # Has a name, class and profession
+    def __init__(self, name, p_class, p_profession):
+        if not type(p_class) is PlayerClass:
+            raise TypeError('py-rpg: p_class must be a PlayerClass type!')
+        if not type(p_profession) is PlayerProfession:
+            raise TypeError('py-rpg: profession must be a PlayerProfession type!')
+        self.name = name
+        self.max_hp = p_class.base_hp
+        self.hp = p_class.base_hp
+        self.max_st = p_class.base_st
+        self.st = p_class.base_st
+        self.inventory = p_profession.starter_inv
+        self.attack = p_class.base_atk
+        self.defense = p_class.base_def
+        self.speed = p_class.base_spd
+
+    class Changes():
+        # Used for making a changes object for a player's update function
+        pass
+
+    def update(self, changes):
+        if isinstance(changes, dict): # Check if 'changes' is a dictionary.
+            raise TypeError('\'changes\' should be a dictionary!')
+        for key, value in changes.items():
+            if key == "health":
+                self.hp += value
+            elif key == "stanima":
+                self.st += value
+            elif key == "inventory":
+                self.inventory[value[0]] == value[1]
+            elif key == "speed":
+                self.speed += value
+
+
+# Player Class
 class PlayerClass():
     def __init__(self, name, health, stamina, attack, defense, speed):
         if not type(name) is str:
@@ -60,17 +98,31 @@ class Item():
 class EffectItem(Item):
     # An item that has an affect.
     # Create an EffectItemAttributes to create attributes for this item.
-    def __init__(self, attributes):
-        for key, 
-class EffectItemAttributes():
-    # Attributes object for EffectItem
-    # For creating your own Attributes object please see the advanced section of the Wiki.
-    pass
+    def __init__(self, name, attributes):
+        if not type(name) is str:
+            raise TypeError('py-rpg: name must be a string!')
+        self.name = name
+        if not type(attributes) is EffectItem.Attributes:
+            raise TypeError('py-rpg: attributes must be a dictionary!')
+        acceptable = ('hp','st','atk','def','spd')
+        for key in attributes.keys():
+            accepted = False
+            for i in acceptable:
+                if key == i:
+                    accepted = True
+                    break
+            if not accepted:
+                raise ValueError('py-rpg: attributes must only contain recognized strings!')
+        self.attr = attributes
+    class Attributes():
+        # Helps in making an attributes dictionary
+        pass
+                
 
 class WearableItem(Item):
     # An item that is marked as wearable.
     # Should only be used for creating new wearable items.
-    # Should only be used in tandem with a new Inventory slot.
+    # Should only be used in tandem with a new Inventory spot.
     pass
     
 class Helmet(WearableItem):
@@ -85,37 +137,3 @@ class Leggings(WearableItem):
 class Boots(WearableItem):
     # An item that is wearable as boots.
     pass
-
-
-class Player():
-    def __init__(self, name, p_class, profession):
-        if not type(p_class) is PlayerClass:
-            raise TypeError('py-rpg: p_class must be a PlayerClass type!')
-        if not type(profession) is Profession:
-            raise TypeError('py-rpg: profession must be a Profession type!')
-        self.name = name
-        self.max_hp = p_class.base_hp
-        self.health = p_class.base_hp
-        self.max_st = p_class.base_st
-        self.stamina = p_class.base_st
-        self.inventory = {}
-        self.attack = p_class.base_atk
-        self.defense = p_class.base_def
-        self.speed = p_class.base_spd
-
-    class Changes():
-        # Used for making a changes object for a player's update function
-        pass
-
-    def update(self, changes):
-        if isinstance(changes, dict): # Check if 'changes' is a dictionary.
-            raise TypeError('\'changes\' should be a dictionary!')
-        for key, value in changes.items():
-            if key == "health":
-                self.health += value
-            elif key == "stanima":
-                self.stamina += value
-            elif key == "inventory":
-                self.inventory[value[0]] == value[1]
-            elif key == "speed":
-                self.speed += value
