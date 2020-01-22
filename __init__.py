@@ -17,9 +17,20 @@ class Player():
         self.defense = p_class.base_def
         self.speed = p_class.base_spd
 
-    class Changes():
+    def create_changes_dict(self, delta_hp, delta_st, delta_atk, delta_def, delta_spd):
         # Used for making a changes object for a player's update function
-        pass
+        output = {}
+        if not delta_hp == None:
+            output["hp"] = delta_hp
+        if not delta_st == None:
+            output["st"] = delta_st
+        if not delta_atk == None:
+            output["atk"] = delta_atk
+        if not delta_def == None:
+            output["def"] = delta_def
+        if not delta_spd == None:
+            output["spd"] = delta_spd
+        return output
 
     def update(self, changes):
         if isinstance(changes, dict): # Check if 'changes' is a dictionary.
@@ -81,11 +92,12 @@ class PlayerProfession():
 
     def info(self):
         result = "Profession "+ self.name +" info\nStarter inventory:\n"
+        # yes pylint i know these variables do not exist, take a break for once.
         result += "  Helmet: "+ self.starter_inv[helmet].name +"\n    Defense: "
         result += str(self.starter_inv[helmet].defense) +"\n    Speed: "
         result += str(self.starter_inv[helmet].speed) +"\n  Chestplate: "
         result += self.starter_inv[chestplate].name +"\n    Defense:"
-NoProfession = PlayerProfession("No Profession",Inventory)
+    
 
 # Inventory & Items
 class Inventory():
@@ -102,7 +114,7 @@ class EffectItem(Item):
         if not type(name) is str:
             raise TypeError('py-rpg: name must be a string!')
         self.name = name
-        if not type(attributes) is EffectItem.Attributes:
+        if not type(attributes) is dict:
             raise TypeError('py-rpg: attributes must be a dictionary!')
         acceptable = ('hp','st','atk','def','spd')
         for key in attributes.keys():
@@ -114,7 +126,7 @@ class EffectItem(Item):
             if not accepted:
                 raise ValueError('py-rpg: attributes must only contain recognized strings!')
         self.attr = attributes
-    class Attributes():
+    def create_attributes_dict(self):
         # Helps in making an attributes dictionary
         pass
                 
