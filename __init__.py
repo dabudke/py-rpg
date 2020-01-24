@@ -127,7 +127,31 @@ class PlayerProfession():
 class Inventory():
     def __init__(self, helmet, chestplate, leggings, boots, backpack, backpack_max):
         # Add another variable above to add another inventory slot.
-        if 
+        if not type(helmet) is Helmet:
+            raise TypeError('py-rpg: helmet must be a Helmet object!')
+        self.helmet = helmet
+
+        if not type(chestplate) is Chestplate:
+            raise TypeError('py-rpg: chestplate must be a Chestplate object!')
+        self.chestplate = chestplate
+
+        if not type(leggings) is Leggings:
+            raise TypeError('py-rpg: leggings must be a Leggings object!')
+        self.leggings = leggings
+
+        if not type(boots) is Boots:
+            raise TypeError('py-rpg: boots must be a Boots object!')
+        self.boots = boots
+
+        if not type(backpack) is list:
+            raise TypeError('py-rpg: backpack must be a list!')
+        if len(backpack) > backpack_max:
+            raise ValueError('py-rpg: backpack cannot contain more items to start with!')
+        for i in backpack:
+            if not type(i) is Item:
+                raise TypeError('py-rpg: backpack must only contain Item objects!')
+        
+
 
 class Item():
     # Item base class.  Use for making your own items.
@@ -175,3 +199,12 @@ class Leggings(Wearable):
 class Boots(Wearable):
     # An item that is wearable as boots.
     pass
+
+class Weapon(Item):
+    # An item that is usable to attack
+    pass
+class Sword(Weapon):
+    # Used for making swords.
+    pass
+class Bow(Weapon):
+arrow = Item()
