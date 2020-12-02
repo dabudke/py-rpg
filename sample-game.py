@@ -1,0 +1,1 @@
+import pyrpg_base
