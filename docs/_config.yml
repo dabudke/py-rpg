@@ -1,0 +1,6 @@
+theme: jekyll-theme-merlot
+
+title: py-rpg
+description: A package for making RPG games a little more easier to make.
+
+show_downloads: true

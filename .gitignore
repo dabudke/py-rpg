@@ -1,3 +1,5 @@
 .theia
 .vscode
 *.pyc
+docs/_site
+docs/.sass-cache
